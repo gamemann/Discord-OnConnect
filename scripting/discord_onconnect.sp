@@ -39,6 +39,8 @@ float g_fWaitTime;
 Handle g_cSent;
 Handle g_cJoined;
 
+EngineVersion EV;
+
 public void OnPluginStart()
 {
     // Initialize ConVars.
@@ -68,8 +70,14 @@ public void OnPluginStart()
     g_cSent = RegClientCookie("doc_sent", "DOC Sent", CookieAccess_Protected);
     g_cJoined = RegClientCookie("doc_joined", "DOC Joined", CookieAccess_Protected);
 
+    // Engine
+    EV = GetEngineVersion();
+
     // Hook player spawn event.
-    HookEvent("player_initial_spawn", Event_PlayerSpawn);
+    if (EV == Engine_TF2)
+    {
+        HookEvent("player_initial_spawn", Event_PlayerSpawn);
+    }
 
     // Execute config.
     AutoExecConfig(true, "sm_doc");
